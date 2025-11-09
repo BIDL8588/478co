@@ -3,21 +3,24 @@
 
 Compile commands: 
 1. nano server.c
-2. gcc echo_server -o server.c
+2. gcc -o echo_server server.c
 3. nano client.c
-4. gcc echo_client -o client.c
+4. gcc -o echo_client client.c
 5. nano hello64.s
 6. gcc -nostdlib -no-pie -o hello64 hello64.s
 
 Commands ran: 
-./echo_server
-./echo_client
-./hello64
+1. ./echo_server
+2. ./echo_client
+3. ./hello64
 
+Explanation: 
+All the files that we created inside docker has code that perfectly compiles and runs. We were given the skeleton to the code, which helped us build off of the server and implement a safe echo server that listens for any client connections and echoes messages that are sent. The client code is meant to connect to the server, send a line of any user input, and display the servers response. The assembly code uses a call-pop technique, that prints a message without relying on C runtime. 
 
 Assembly demo: 
+
    .section .text
-    .global _start
+   .global _start
 
 _start:
     jmp message
