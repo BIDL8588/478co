@@ -24,7 +24,7 @@ int list_sock(void)
         exit(1);
     }
 
-    if(setsockopt(t_fd, SOL_SOCKET, SO_REUSEADDR, &top, sizeof(opt)) < 0)
+    if(setsockopt(t_fd, SOL_SOCKET, SO_REUSEADDR, &top, sizeof(top)) < 0)
     {
         perror("setsockopt");
         close(t_fd); 
@@ -49,6 +49,8 @@ int list_sock(void)
         close(t_fd);
         exit(1); 
     }
+    printf("Echo server is up and listening on port %d...\n", PORT);
+    fflush(stdout);
     return t_fd; 
 }
 
