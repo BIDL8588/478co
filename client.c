@@ -47,7 +47,7 @@ void message_ex(int m_fd)
     fflush(stdout);
     if (fgets(buf, sizeof buf, stdin) == NULL) 
     { 
-        printf("No input has been received.\n"); 
+        fprintf(stderr, "No input has been received.\n"); 
         return; 
     }
 
