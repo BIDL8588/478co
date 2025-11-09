@@ -11,6 +11,30 @@
 #define BACKLOG 4
 #define BUF_SIZE 1024
 
+int list_sock(void);
+void handle_cli(int conn_fd);
+
+int main(void) {
+    int listen_fd = list_sock(); 
+    int conn_fd;
+    while (1) {
+        conn_fd = accept(listen_fd, NULL, NULL);
+        if (conn_fd < 0) 
+        { 
+         perror("accept"); 
+         continue; 
+        }
+
+        printf("Client connected\n");
+        handle_cli(conn_fd);
+        close(conn_fd);
+        printf("Client disconnected\n");
+    }
+
+    close(listen_fd);
+    return 0;
+}
+
 int list_sock(void)
 {
     int t_fd;
@@ -65,23 +89,3 @@ void handle_cli(int conn_fd)
     
 }
 
-int main(void) {
-    int listen_fd = list_sock(); 
-    int conn_fd;
-    while (1) {
-        conn_fd = accept(listen_fd, NULL, NULL);
-        if (conn_fd < 0) 
-        { 
-         perror("accept"); 
-         continue; 
-        }
-
-        printf("Client connected\n");
-        handle_cli(conn_fd);
-        close(conn_fd);
-        printf("Client disconnected\n");
-    }
-
-    close(listen_fd);
-    return 0;
-}
