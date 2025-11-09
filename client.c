@@ -47,7 +47,7 @@ void message_ex(int m_fd)
     if (fgets(buf, sizeof buf, stdin) == NULL) 
     { 
         printf("No input has been received.\n"); 
-        return 0; 
+        return; 
     }
 
     send(m_fd, buf, strlen(buf), 0); 
@@ -55,7 +55,7 @@ void message_ex(int m_fd)
     n = recv(m_fd, buf, sizeof buf - 1, 0);
     if(n > 0)
     {
-        buf[n] = "\0";
+        buf[n] = '\0';
         printf("Echo from server: %s", buf);
     }
     else
@@ -64,8 +64,8 @@ void message_ex(int m_fd)
     }
 }
 int main(void) {
-    int fd = connect_to_server();
-    exchange_message(fd);
+    int fd = conn_serv();
+    message_ex(fd);
     close(fd);
     return 0;
 }
