@@ -7,6 +7,17 @@
 
 #define PORT 31337
 #define BUF_SIZE 1024
+
+int conn_serv(void);
+void message_ex(int m_fd);
+int main(void) {
+    int fd = conn_serv();
+    message_ex(fd);
+    close(fd);
+    return 0;
+}
+
+
 int conn_serv(void)
 {
     int c_fd = (AF_INET, SOCK_STREAM, 0); 
@@ -63,10 +74,4 @@ void message_ex(int m_fd)
     {
         printf("No response or connection closed.\n");
     }
-}
-int main(void) {
-    int fd = conn_serv();
-    message_ex(fd);
-    close(fd);
-    return 0;
 }
