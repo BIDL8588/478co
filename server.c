@@ -12,43 +12,73 @@ server.c (safe echo server)
 #define BACKLOG 4
 #define BUF_SIZE 1024
 
-int main(void) {
-    int listen_fd = -1, conn_fd = -1;
+int list_sock(void)
+{
+    int t_fd;
     struct sockaddr_in addr;
-    char buf[BUF_SIZE];
-    ssize_t n;
+    int top = 1; 
 
-    listen_fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (listen_fd < 0) { perror("socket"); exit(1); }
+    t_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if(t_fd < 0)
+    {
+        perror("socket");
+        exit(1);
+    }
+
+    if(setsockopt(t_fd, SOL_SOCKET, SO_REUSEADDR, &top, sizeof(opt)) < 0)
+    {
+        perror("setsockopt");
+        close(t_fd); 
+        exit(1);
+    }
 
     memset(&addr, 0, sizeof addr);
     addr.sin_family = AF_INET;
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
     addr.sin_port = htons(PORT);
 
-    if (bind(listen_fd, (struct sockaddr*)&addr, sizeof addr) < 0) {
-        perror("bind"); close(listen_fd); exit(1);
+    if(bind(t_fd, (struct sockaddr*)&addr, sizeof(addr)) < 0)
+    {
+        perror("bind");
+        close(t_fd);
+        exit(1);
     }
 
-    if (listen(listen_fd, BACKLOG) < 0) {
-        perror("listen"); close(listen_fd); exit(1);
+    if(listen(t_fd, BACKLOG) < 0)
+    {
+        perror("listen");
+        close(t_fd);
+        exit(1); 
     }
+    return t_fd; 
+}
 
-    printf("Echo server listening on port %d
-", PORT);
+void handle_cli(int conn_fd)
+{
+    char buf[BUF_SIZE];
+    ssize_t n; 
+    while((n = recv(conn_fd, buf, sizeof(buf), 0)) > 0)
+    {
+        send(conn_fd, buf, n, 0);  
+    }
+    
+}
 
+int main(void) {
+    int listen_fd = list_sock(); 
+    int conn_fd;
     while (1) {
         conn_fd = accept(listen_fd, NULL, NULL);
-        if (conn_fd < 0) { perror("accept"); continue; }
-
-        printf("Client connected
-");
-        while ((n = recv(conn_fd, buf, sizeof buf, 0)) > 0) {
-            send(conn_fd, buf, n, 0);
+        if (conn_fd < 0) 
+        { 
+         perror("accept"); 
+         continue; 
         }
+
+        printf("Client connected\n");
+        handle_cli(conn_fd);
         close(conn_fd);
-        printf("Client disconnected
-");
+        printf("Client disconnected\n");
     }
 
     close(listen_fd);
