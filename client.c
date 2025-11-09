@@ -44,6 +44,7 @@ void message_ex(int m_fd)
     ssize_t n; 
 
     printf("Connected. Type a line and press Enter:");
+    fflush(stdout);
     if (fgets(buf, sizeof buf, stdin) == NULL) 
     { 
         printf("No input has been received.\n"); 
