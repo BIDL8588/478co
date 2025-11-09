@@ -1,4 +1,3 @@
-server.c (safe echo server)
 // server.c -- safe echo server for lab (listen -> accept -> echo)
 #include <stdio.h>
 #include <stdlib.h>
