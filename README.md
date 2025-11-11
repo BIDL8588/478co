@@ -15,7 +15,7 @@ Commands ran:
 3. ./hello64
 
 Explanation: 
-All the files that we created inside docker has code that perfectly compiles and runs. We were given the skeleton to the code, which helped us build off of the server and implement a safe echo server that listens for any client connections and echoes messages that are sent. The client code is meant to connect to the server, send a line of any user input, and display the servers response. The assembly code uses a call-pop technique, that prints a message without relying on C runtime. 
+All the files that we created inside docker has code that perfectly compiles and runs. We were given the skeleton to the code, which helped us build off of the server and implement a safe echo server that listens for any client connections and echoes messages that are sent. The client code is meant to connect to the server, send a line of any user input, and display the servers response. This design is safe because it uses system calls, that avoids random input, and only "echoes" text that is received by user instead of executing unnecessary opeartions. The assembly code uses a call-pop technique, that prints a message without relying on C runtime. 
 
 Assembly demo: 
 
