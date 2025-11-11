@@ -38,5 +38,5 @@ code:
 
 message:
     call code
-    .ascii "Hello from CECS478 Lab06  ^`^t Byron Lopez 028853901\n"
+    .ascii "Hello from CECS478 Lab06 Byron Lopez 028853901\n"
 msg_len = . - message - 5
