@@ -46,31 +46,39 @@ void exchange_message(int fd)
     printf("Connected. Type a line and press Enter: ");
     fflush(stdout);
 
-    if (fgets(buf, sizeof buf, stdin) == NULL) {
+    if (fgets(buf, sizeof buf, stdin) == NULL) 
+    {
         if (feof(stdin)) {
             fprintf(stderr, "No input has been received.\n");
-        } else {
+        } 
+        else 
+        {
             perror("fgets");
         }
         return;
     }
 
     size_t len = strlen(buf);
-    if (len == 0) {
+    if (len == 0) 
+    {
         fprintf(stderr, "Empty input.\n");
         return;
     }
 
-    if (send(fd, buf, len, 0) != (ssize_t)len) {
+    if (send(fd, buf, len, 0) != (ssize_t)len) 
+    {
         perror("send");
         return;
     }
 
     n = recv(fd, buf, sizeof buf - 1, 0);
-    if (n < 0) {
+    if (n < 0) 
+    {
         perror("recv");
         return;
-    } else if (n == 0) {
+    } 
+    else if (n == 0) 
+    {
         printf("Server closed the connection.\n");
         return;
     }
