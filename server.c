@@ -14,10 +14,12 @@
 int list_sock(void);
 void handle_cli(int conn_fd);
 
-int main(void) {
+int main(void) 
+{
     int listen_fd = list_sock(); 
     int conn_fd;
-    while (1) {
+    while (1) 
+    {
         conn_fd = accept(listen_fd, NULL, NULL);
         if (conn_fd < 0) 
         { 
